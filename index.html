@@ -106,7 +106,7 @@
       if (data.senderId !== myClientId) {
         try {
           // Step A: Request the pronunciation query from VOICEVOX for Speaker 3 (Zundamon)
-          const queryRes = await fetch(`${VOICEVOX_URL}/audio_query?text=${encodeURIComponent(data.text)}&speaker=3`, {
+          const queryRes = await fetch(`${VOICEVOX_URL}/audio_query?text=${encodeURIComponent(data.text)}&speaker=2`, {
             method: 'POST'
           });
           const queryJson = await queryRes.json();
