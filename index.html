@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chat App with VOICEVOX</title>
+  <!-- Load WanaKana.js to automatically convert English/Romaji text into Katakana -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/wanakana/5.1.2/wanakana.min.js"></script>
   <style>
     body { 
       font-family: Arial, sans-serif; 
@@ -63,7 +65,7 @@
   <ul id="messages"></ul>
   
   <form id="form" action="">
-    <input id="input" autocomplete="off" placeholder="Type a message (Use Katakana for VOICEVOX)..." required />
+    <input id="input" autocomplete="off" placeholder="Type a message (English/Romaji auto-converts to Katakana)..." required />
     <button>Send</button>
   </form>
 
@@ -105,8 +107,14 @@
       // 3. VOICEVOX Triggers: ONLY process if the message is from the *other* user
       if (data.senderId !== myClientId) {
         try {
+          // Automatically convert any English/Romaji characters to Katakana for correct pronunciation
+          let speechText = data.text;
+          if (wanakana.isRomaji(speechText)) {
+            speechText = wanakana.toKatakana(speechText);
+          }
+
           // Step A: Request the pronunciation query from VOICEVOX for Speaker 2
-          const queryRes = await fetch(`${VOICEVOX_URL}/audio_query?text=${encodeURIComponent(data.text)}&speaker=2`, {
+          const queryRes = await fetch(`${VOICEVOX_URL}/audio_query?text=${encodeURIComponent(speechText)}&speaker=2`, {
             method: 'POST'
           });
           const queryJson = await queryRes.json();
