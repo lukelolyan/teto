@@ -18,8 +18,8 @@ io.on('connection', (socket) => {
   });
 });
 
-// Start the server
+// Start the server using Render's port or 3000 locally
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-});});
+});
