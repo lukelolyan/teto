@@ -42,15 +42,22 @@
   });
 
   // Receive the message
-  socket.on('chat message', (msg) => {
-    const item = document.createElement('li');
-    item.textContent = msg.text;
-    
-    // Apply the sender's specific color
-    item.style.backgroundColor = msg.color;
-    item.style.color = '#ffffff'; 
-    
-    messages.appendChild(item);
-    window.scrollTo(0, document.body.scrollHeight);
-  });
+// Receive the message
+socket.on('chat message', (msg) => {
+  // 1. Put the text on the screen
+  const item = document.createElement('li');
+  item.textContent = msg;
+  messages.appendChild(item);
+  window.scrollTo(0, document.body.scrollHeight);
+
+  // 2. Make the browser speak the text
+  const speech = new SpeechSynthesisUtterance(msg);
+  speech.lang = 'en-US'; // Force English pronunciation
+  
+  // Optional: You can change the pitch or speed to make it sound a bit more robotic/synthetic
+  speech.pitch = 1.5; 
+  speech.rate = 1.2;  
+
+  window.speechSynthesis.speak(speech);
+});
 </script>
