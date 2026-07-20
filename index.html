@@ -105,14 +105,14 @@
       // 3. VOICEVOX Triggers: ONLY process if the message is from the *other* user
       if (data.senderId !== myClientId) {
         try {
-          // Step A: Request the pronunciation query from VOICEVOX for Speaker 3 (Zundamon)
-          const queryRes = await fetch(`${VOICEVOX_URL}/audio_query?text=${encodeURIComponent(data.text)}&speaker=2`, {
+          // Step A: Request the pronunciation query from VOICEVOX for Kasane Teto (Speaker 65)
+          const queryRes = await fetch(`${VOICEVOX_URL}/audio_query?text=${encodeURIComponent(data.text)}&speaker=65`, {
             method: 'POST'
           });
           const queryJson = await queryRes.json();
 
-          // Step B: Submit the audio configuration data to synthesize the WAV data
-          const synthRes = await fetch(`${VOICEVOX_URL}/synthesis?speaker=3`, {
+          // Step B: Submit the audio configuration data to synthesize the WAV data using Speaker 65
+          const synthRes = await fetch(`${VOICEVOX_URL}/synthesis?speaker=65`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(queryJson)
