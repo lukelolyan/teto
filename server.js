@@ -6,20 +6,20 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-// Send the HTML file when someone visits
+// Serve the HTML file when users visit the page
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
-// Handle the messages
+// Handle real-time chat messages
 io.on('connection', (socket) => {
-  socket.on('chat message', (msg) => {
-    io.emit('chat message', msg);
+  socket.on('chat message', (data) => {
+    // Simply forward the message data (text + senderId) to everyone
+    io.emit('chat message', data);
   });
 });
 
-// Start the server using Render's port or 3000 locally
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+// Start the server on port 3000
+server.listen(3000, () => {
+  console.log('Server is running at http://localhost:3000');
 });
